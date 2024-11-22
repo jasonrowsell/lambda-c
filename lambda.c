@@ -1,15 +1,14 @@
-/* lambda.c */
 #include <stdio.h>
-#include <stdarg.h>
 
-#define LAMBDA(arg, body) \
-    int lmb__LINE__(int arg) { return body; }
-
-void abc() {}
+#define LAMBDA(R, params, body) \
+    ({ R __lambda__ params body __lambda__; })
 
 int main()
 {
-    LAMBDA(x, x + 1)
+    int (*add)(int, int) = LAMBDA(int, (int a, int b), { return a + b; });
+
+    int result = add(3, 4);
+    printf("Result: %d\n", result);
 
     return 0;
 }
